@@ -26,6 +26,7 @@ from polls import api_views
 from django.contrib.staticfiles import views as static_views
 import contact.views
 from .settings import MEDIA_ROOT
+from django.views.static import serve
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -63,13 +64,12 @@ urlpatterns = [
     url(r'^thread/vote/(?P<thread_id>\d+)/(?P<subject_id>\d+)/$', forum_views.thread_vote, name='cast_vote'),
     url(r'^threads/polls/$', api_views.PollViewSet.as_view()),
 
-    #static urls
+    # static urls
     url(r'^static/(?P<path>.*)$', static_views.serve),
 
-    #contact form urls
+    # contact form urls
     url(r'^contact/', contact.views.contact, name='contact'),
 
-    #media
-     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
+    # media
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 ]
-
